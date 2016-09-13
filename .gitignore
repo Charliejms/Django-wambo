@@ -1,0 +1,18 @@
+#Ignore File project Django
+
+# Virtual Enviroments
+env/
+venv/
+
+# Databases Files
+db.sqlite3
+
+#PyCharm Stuff
+.idea/
+
+#Python bytecode files
+*.pyc
+
+#Gitignore global
+*~
+.DS_Store
