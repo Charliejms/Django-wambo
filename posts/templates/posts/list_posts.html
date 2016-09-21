@@ -1,0 +1,16 @@
+{% include 'base.html' %}
+<title> {% block title %} Wambo Post  {% endblock%}</title>
+
+<p>
+    {% block body %}
+        <h2>Trendy Post Wambo</h2>
+        <p>Comparte tus historia.</p>
+
+    {% endblock %}
+</p>
+
+{% for obj in object_list %}
+{% url 'url_post_detail' pk=obj.pk%}
+<a href="{{ obj.get_absotute_url }}">{{ obj.title }}</a><br/>
+    {{ obj.content}} <br/>
+{% endfor %}

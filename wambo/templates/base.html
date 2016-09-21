@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %} Welcome Wambo {% endblock%}</title>
+</head>
+
+<body>
+    <nav>
+        {% include 'includes/menu.html'%}
+    </nav>
+    <section>
+        {% block body %} {% endblock %}
+    </section>
+    <hr>
+    <footer>
+        {% block footer%}
+        Wambo Inc & copy Todos los derechos reservados
+        {% endblock %}
+    </footer>
+</body>
+
+</html>

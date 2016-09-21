@@ -16,3 +16,7 @@ db.sqlite3
 #Gitignore global
 *~
 .DS_Store
+
+#Personal ignore richardcs
+
+blogs

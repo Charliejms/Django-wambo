@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+{% block body %}
+    <h2> {{ title }}</h2><br/>
+    <form method="POST" action="" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create post">
+    </form>
+
+{% endblock %}
