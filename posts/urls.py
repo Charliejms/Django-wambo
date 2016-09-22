@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^create/$', post_create, name='url_post_create'),
     url(r'^(?P<pk>\d+)/$', post_detail, name='url_post_detail'),
     url(r'^(?P<pk>\d+)/update/$', post_update, name='url_post_update'),
-    url(r'^delete/$', post_delete, name='url_post_delete'),
+    url(r'^(?P<pk>\d+)/delete/$', post_delete, name='url_post_delete'),
 
     # API post URLs
 ]

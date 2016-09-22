@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
 # Create your views here.
 from posts.form import PostForm
@@ -16,6 +17,11 @@ def post_create(request):
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
+        # message success
+        messages.success(request, 'Post Successfully Created')
+        return redirect('url_post_detail', pk=instance.pk)
+    # else:
+    #     messages.error(request, 'Post  NOT Successfully Created')
     context = {
         'form': form,
         'title': 'Post Form',
@@ -44,10 +50,12 @@ def post_list(request):
 def post_update(request, pk):
 
     instance = get_object_or_404(Post, pk=pk)
-    form = PostForm(request.POST or None, instance= instance)
+    form = PostForm(request.POST or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
+        messages.success(request, 'Post Save', extra_tags='update-post')
+        return redirect('url_post_detail', pk=instance.pk)
     context = {
         'title': instance.title,
         'instance': instance,
@@ -56,6 +64,8 @@ def post_update(request, pk):
     return render(request, 'posts/post_form.html', context)
 
 
-def post_delete(request):
-
-    return HttpResponse("<h1>Delete</h1>")
+def post_delete(request, pk=None):
+    instance = get_object_or_404(Post, pk=pk)
+    instance.delete()
+    messages.success(request, 'Post Successfully Deleted')
+    return redirect('url_post_list')

@@ -6,11 +6,17 @@
 </head>
 
 <body>
+<div class="container">
+
+{% block content %}
+
+    {% include 'includes/messages_display.html' %}
+
     <nav>
         {% include 'includes/menu.html'%}
     </nav>
     <section>
-        {% block body %} {% endblock %}
+        {% block body %} {% endblock body %}
     </section>
     <hr>
     <footer>
@@ -18,6 +24,9 @@
         Wambo Inc & copy Todos los derechos reservados
         {% endblock %}
     </footer>
+{% endblock content %}
+
+</div>
 </body>
 
 </html>

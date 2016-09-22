@@ -10,7 +10,7 @@
 </p>
 
 {% for obj in object_list %}
-{% url 'url_post_detail' pk=obj.pk%}
-<a href="{{ obj.get_absotute_url }}">{{ obj.title }}</a><br/>
+{% url 'url_post_detail' pk=obj.pk%} <br/>
+<a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a><br/>
     {{ obj.content}} <br/>
 {% endfor %}
