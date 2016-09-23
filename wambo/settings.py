@@ -121,3 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "Wambo/static"),
+    #'/var/www/static/',
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+# Any files uploaded from the user going to media route by default
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')

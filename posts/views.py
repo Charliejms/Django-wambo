@@ -2,6 +2,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 from posts.form import PostForm
@@ -39,10 +40,22 @@ def post_detail(request, pk):
 
 
 def post_list(request):
-    post_qs = Post.objects.all()
+    post_qs_list = Post.objects.all() #.order_by('-timestamp')
+    paginator = Paginator(post_qs_list, 5)  # Show 25 contacts per page
+    page_rqs_var = 'page'
+    page = request.GET.get(page_rqs_var)
+    try:
+        post_qs = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        post_qs = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        post_qs = paginator.page(paginator.num_pages)
     context = {
         'object_list': post_qs,
-        'title': 'List Post'
+        'title': 'List Post',
+        'page_rqs_var': page_rqs_var,
     }
     return render(request, 'posts/list_posts.html', context)
 
@@ -69,3 +82,6 @@ def post_delete(request, pk=None):
     instance.delete()
     messages.success(request, 'Post Successfully Deleted')
     return redirect('url_post_list')
+
+
+
