@@ -4,6 +4,9 @@
     {% block content %}
         <h1> Post Wambo</h1>
         <div class="col-sm-12">
+            {% if instance.image %}
+            <img src="{{ instance.image.url }}"  class="img-responsive" alt="">
+            {% endif %}
             <h2> {{ instance.title }}  <small>{{ instance.timestamp }}</small></h2>
             <p class="lead">
                 {{ instance.content | linebreaks}}
