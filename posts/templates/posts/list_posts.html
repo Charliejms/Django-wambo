@@ -1,9 +1,13 @@
 {% include 'base.html' %}
 {% block body %}
-<title> {% block title %} Wambo Post {% endblock%}</title>
+<title xmlns="http://www.w3.org/1999/html"> {% block title %} Wambo Post {% endblock%}</title>
 <div class="container">
 <div class="col-sm-8 col-sm-offset-2">
     <h2>Comparte tus historia.</h2>
+    <form method="get" action="">
+        <input type="text" name="search" id="" placeholder="Search post" value="{{ request.GET.search }}">
+        <input type="submit" value="Search">
+    </form>
     <div class="row">
         <div class="col-sm-12">
             {% for obj in object_list %}
@@ -12,7 +16,9 @@
                     <img src="{{ obj.image.url }}" class="img-responsive" alt="...">
                     {% endif %}
                     <div class="caption">
-                        <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{{ obj.timestamp | timesince }}</small></h3>
+                        {% if obj.draft %}<h3> Staff only: Draft</h3>{% endif %}
+                        {% if obj.publish > today %} Staff only: Post Pendiente{% endif %}
+                        <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{{ obj.publish | timesince }}</small></h3>
                         {% if obj.user %}
                             <h4> Author: @{{ obj.user }}</h4>
                         {% endif %}
@@ -25,7 +31,7 @@
         <div class="pagination">
             <span class="step-links">
                 {% if object_list.has_previous %}
-                    <a href="?{{ page_rqs_var }}={{ object_list.previous_page_number }}">previous</a>
+                    <a href="?{{ page_rqs_var }}={{ object_list.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">previous</a>
                 {% endif %}
 
                 <span class="current">
@@ -33,7 +39,9 @@
                 </span>
 
                 {% if object_list.has_next %}
-                    <a href="?{{ page_rqs_var }}={{ object_list.next_page_number }}">next</a>
+                    <a href="?{{ page_rqs_var }}={{ object_list.next_page_number }}
+{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">next
+                        </a>
                 {% endif %}
             </span>
         </div>
