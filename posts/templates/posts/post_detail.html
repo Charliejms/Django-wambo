@@ -1,4 +1,5 @@
 {% include 'base.html' %}
+
 <div class="container">
 <div class="col-sm-8 col-sm-offset-2">
     {% block content %}
@@ -8,10 +9,30 @@
             <img src="{{ instance.image.url }}"  class="img-responsive" alt="">
             {% endif %}
             <h2> {{ instance.title }}  <small>{{ instance.timestamp }}</small></h2>
+                {% if instance.user.get_full_name %}
+                    <p>Author: {{ instance.user.get_full_name}}</p>
+                {% else %}
+                    <p> Author:@{{ instance.user }}</p>
+                {% endif %}
             <p class="lead">
                 {{ instance.content | linebreaks}}
             </p>
+{% comment %}            <p>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.built_absolute_uri }}">
+                    Facebook
+                </a>
+                <a href="https://twitter.com/home?status={{ share_string | truncatechars:80 }}{{request.built_absolute_uri}}">
+                    Twitter
+                </a>
+                <a href='https://plus.google.com/share?url={{ request.built_absolute_uri }}'>
+                    Google Plus
+                </a>
+            </p>{% endcomment %}
+            <p>
+                <div class="fb-like" data-href="{{ request.built_absolute_uri }}" data-layout="button_count" data-action="recommend" data-size="small" data-show-faces="false" data-share="true"></div>
+            </p>
         </div>
+        <div class="fb-comments" data-href="{{ request.built_absolute_uri }}" data-numposts="5"></div>
     {% endblock %}
 </div>
 </div>

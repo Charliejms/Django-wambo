@@ -1,4 +1,7 @@
 # -*- coding:utf8 -*-
+from urllib.parse import quote_plus
+
+from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -14,9 +17,14 @@ def post_home(request):
 
 
 def post_create(request):
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
+    if not request.user.is_authenticated():
+        raise Http404
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         instance.save()
         # message success
         messages.success(request, 'Post Successfully Created')
@@ -32,9 +40,11 @@ def post_create(request):
 
 def post_detail(request, pk):
     instance = get_object_or_404(Post, pk=pk)
+    share_string = quote_plus(instance.title)
     context = {
         'title': instance.title,
-        'instance': instance
+        'instance': instance,
+        'share_string': share_string,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -61,7 +71,8 @@ def post_list(request):
 
 
 def post_update(request, pk):
-
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     instance = get_object_or_404(Post, pk=pk)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
@@ -78,6 +89,8 @@ def post_update(request, pk):
 
 
 def post_delete(request, pk=None):
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     instance = get_object_or_404(Post, pk=pk)
     instance.delete()
     messages.success(request, 'Post Successfully Deleted')
