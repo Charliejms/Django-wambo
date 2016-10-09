@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # third party
+    # third party lib
     'crispy_forms',
+    'pagedown',
+    'markdown_deux',
     # local apps
     'posts',
     'users',

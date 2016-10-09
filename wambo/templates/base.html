@@ -10,21 +10,42 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Personal theme  style-->
-    <link rel="stylesheet" href="{% static "" %}">
+{#    <link rel="stylesheet" href="{% static "" %}">#}
 </head>
+
 <body>
 <div class="container">
-<nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
+    <nav class="navbar navbar-default navbar-static-top">
         {% include "includes/menu.html" %}
-    </div>
-</nav>
-{% block content %}
-    {% include "includes/messages_display.html" %}
-{% endblock %}
+    </nav>
+    <section>
+        {% block content %}
+            {% include "includes/messages_display.html" %}
+        {% endblock %}
+        {% include 'includes/facebook_comments.html' %}
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <p class="muted credit">Wambo <a href="#">Richard </a> and <a href="#">Link</a>.</p>
+        </div>
+    </footer>
 </div>
-{% include 'includes/facebook_comments.html' %}
-</body>
+
+
 <!-- Latest compiled and minified JavaScript -->
+<script   src="http://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.content-markdown').each(function () {
+            var content = $(this).text();
+            console.log(content);
+            var markedContent = marked(content);
+            console.log(markedContent);
+            $(this).html(markedContent);
+        })
+    })
+</script>
+</body>
 </html>
