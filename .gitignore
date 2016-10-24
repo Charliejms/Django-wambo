@@ -6,6 +6,8 @@ venv/
 
 # Databases Files
 db.sqlite3
+db2.sqlite3
+
 
 #PyCharm Stuff
 .idea/
