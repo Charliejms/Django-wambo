@@ -1,7 +1,6 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-
     <div class="col-sm-8 col-sm-offset-2">
         <h1> Post Wambo</h1>
         <div class="col-sm-12">
@@ -23,6 +22,5 @@
         </div>
         <div class="fb-comments" data-href="{{ request.built_absolute_uri }}" data-numposts="5"></div>
     </div>
-
 {% endblock content %}
 

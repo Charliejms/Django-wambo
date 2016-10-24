@@ -1,12 +1,18 @@
-{% include 'base.html' %}
-{% block body %}
+{% extends 'base.html' %}
+{% block content %}
 <title xmlns="http://www.w3.org/1999/html"> {% block title %} Wambo Post {% endblock%}</title>
 <div class="container">
 <div class="col-sm-8 col-sm-offset-2">
     <h2>Comparte tus historia.</h2>
-    <form method="get" action="">
-        <input type="text" name="search" id="" placeholder="Search post" value="{{ request.GET.search }}">
-        <input type="submit" value="Search">
+    <form class="row" method="get" action="">
+        <div class="col-sm-6">
+            <div class="input-group">
+                <input class="form-control" type="text" name="search" id="" placeholder="Search post" value="{{ request.GET.search }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" value="Search">Go!</button>
+                </span>
+            </div>
+        </div>
     </form>
     <div class="row">
         <div class="col-sm-12">
@@ -40,8 +46,8 @@
 
                 {% if object_list.has_next %}
                     <a href="?{{ page_rqs_var }}={{ object_list.next_page_number }}
-{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">next
-                        </a>
+                        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">next
+                    </a>
                 {% endif %}
             </span>
         </div>
