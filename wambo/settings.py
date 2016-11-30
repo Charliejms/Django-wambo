@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'pagedown',
     'markdown_deux',
     # local apps
+    'comments',
     'posts',
     'users',
     'wambo',
-    'comments',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

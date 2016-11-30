@@ -22,7 +22,7 @@
                     <img src="{{ obj.image.url }}" class="img-responsive" alt="...">
                     {% endif %}
                     <div class="caption">
-                        {% if obj.draft %}<h3> Staff only: Draft</h3>{% endif %}
+{#                        {% if obj.draft %}<h3> Staff only: Draft</h3>{% endif %}#}
                         {% if obj.publish > today %} Staff only: Post Pendiente{% endif %}
                         <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> <small>{{ obj.publish | timesince }}</small></h3>
                         {% if obj.user %}

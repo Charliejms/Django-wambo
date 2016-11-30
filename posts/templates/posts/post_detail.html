@@ -16,11 +16,11 @@
                 <p class="lead">
                     {{ instance.get_markdown | linebreaks}}
                 </p>
-                <p>
+                {% comment %}<p>
                     <div class="fb-like" data-href="{{ request.built_absolute_uri }}" data-layout="button_count" data-action="recommend" data-size="small" data-show-faces="false" data-share="true"></div>
-                </p>
+                </p>{% endcomment %}
         </div>
-        <div class="fb-comments" data-href="{{ request.built_absolute_uri }}" data-numposts="5"></div>
+{#        <div class="fb-comments" data-href="{{ request.built_absolute_uri }}" data-numposts="5"></div>#}
     </div>
+    {% include "includes/comment.html" %}
 {% endblock content %}
-

@@ -21,13 +21,16 @@ from django.contrib import admin
 
 from users import urls as users_urls
 from posts import urls as posts_urls
+from comments import urls as comments_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Import Posts URLs
     url(r'^posts/', include(posts_urls)),
-    #Import User URLs
+    # Import Comments URLs
+    url(r'^comments/', include(comments_url, namespace='comments')),
+    # Import User URLs
 ]
 
 

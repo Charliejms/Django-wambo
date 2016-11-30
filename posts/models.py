@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
@@ -8,6 +9,8 @@ from django.utils import timezone
 
 from markdown_deux import markdown
 from django.utils.safestring import mark_safe
+
+from comments.models import Comment
 # Create your models here.
 
 #Post.objects.all()
@@ -58,6 +61,18 @@ class Post(models.Model):
         content = self.content
         markdown_text = markdown(content)
         return mark_safe(markdown_text)
+
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
+        return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
 
 # https://docs.djangoproject.com/en/1.10/ref/signals/
 # Hacer algo antes de guardar la instacia
