@@ -22,3 +22,6 @@ db2.sqlite3
 #Personal ignore richardcs
 
 blogs
+
+#ignore static files
+static_cdn

@@ -7,7 +7,17 @@
             {% if instance.image %}
                 <img src="{{ instance.image.url }}"  class="img-responsive" alt="">
             {% endif %}
-                <h2> {{ instance.title }}  <small>{% if instance.draft %} <span class="alert alert-danger">Draft</span>{% endif %}{{ instance.publish }}</small></h2>
+                <h2> {{ instance.title }}
+                    <small>
+                        {% if instance.draft %} <span class="alert alert-danger">Draft</span>{% endif %}
+                        {{ instance.publish }} |
+                        {% if instance.read_time >= 9 %}
+                            Read time {{ instance.read_time | time:'i' | cut:'0'}} minutes
+                        {% else %}
+                            Read time {{ instance.read_time | time:'i'}} minutes
+                        {% endif %}
+                    </small>
+                </h2>
             {% if instance.user.get_full_name %}
                 <p>Author: {{ instance.user.get_full_name}}</p>
             {% else %}
