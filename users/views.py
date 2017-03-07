@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.shortcuts import render, redirect
 from django.views import View
 
-from users.forms import LoginForm, Registrationform
+from users.forms import LoginForm, Registrationform, UserRegisterForm
+from .forms import UserLoginForm
 
 
 class LoginView(View):
@@ -77,14 +78,65 @@ class RegisterView(View):
 
 
 def login_view(request):
-
-    render(request, 'form.html', {})
+    """
+    Gestiona el login del Usuario
+    :param request: objeto HttpRequest con los datos de la petición
+    :return: objeto Httpresponse con los datos de la respuesta
+    """
+    next = request.GET.get('next')
+    title = 'Login'
+    form = UserLoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        django_login(request, user)
+        if next:
+            return redirect(next)
+        #redirect
+        return redirect('url_post_list')
+    context = {
+        'form': form,
+        'title': title
+    }
+    return render(request, 'users/login.html', context)
 
 
 def register_view(request):
+    """
+    Gestiona el registro del usuario
+    :param request: objeto HttpRequeste con los datos de la petición
+    :return: objeto HttpResponse con los datos de la respuesta
+    """
+    next = request.GET.get('next')
+    title = 'Register'
+    form = UserRegisterForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        password = form.cleaned_data.get('password')
+        user.set_password(password)
+        user.save()
+        new_user = authenticate(username=user.username, password=password)
+        django_login(request, new_user)
+        if next:
+            return redirect(next)
+        # redirect
+        return redirect('url_post_list')
 
-    render(request, 'register.html', {})
+    context = {
+        'form': form,
+        'title': title
+    }
+
+    return render(request, 'users/register.html', context)
 
 
 def logout_view(request):
-    render(request, 'form.html', {})
+    """
+    Gestiona el logout del Usuario
+    :param request: objeto HttpRequest con los parametros de la petición
+    :return: objeto HttpResponse con los parametros de la respuesta
+    """
+    django_logout(request)
+    return redirect('url_post_list')
+    #return render(request, 'users/logout.html', {})

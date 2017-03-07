@@ -27,10 +27,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Import Posts URLs
-    url(r'^posts/', include(posts_urls)),
+    url(r'^', include(posts_urls)),
     # Import Comments URLs
     url(r'^comments/', include(comments_url, namespace='comments')),
     # Import User URLs
+    url(r'', include(users_urls)),
 ]
 
 
