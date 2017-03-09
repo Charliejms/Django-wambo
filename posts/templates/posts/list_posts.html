@@ -3,8 +3,12 @@
 <title xmlns="http://www.w3.org/1999/html"> {% block title %} Wambo Post {% endblock%}</title>
 <div class="container">
 <div class="col-sm-8 col-sm-offset-2">
-    <h2>Comparte tus historia.</h2>
-    <form class="row" method="get" action="">
+    <h1>Read, write and share stories</h1>
+    <hr>
+    {% if not request.user.is_authenticated %}
+        <h2><a href="{% url 'url_post_create' %}">Write a story</a></h2>
+    {% else %}
+     <form class="row" method="get" action="">
         <div class="col-sm-6">
             <div class="input-group">
                 <input class="form-control" type="text" name="search" id="" placeholder="Search post" value="{{ request.GET.search }}">
@@ -14,6 +18,7 @@
             </div>
         </div>
     </form>
+    {% endif %}
     <div class="row">
         <div class="col-sm-12">
             {% for obj in object_list %}

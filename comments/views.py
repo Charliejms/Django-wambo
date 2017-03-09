@@ -9,9 +9,15 @@ from django.contrib.auth.decorators import login_required
 from .models import Comment
 from .forms import CommentForm
 
-@login_required #Settings
+
+@login_required  # Settings
 def comment_delete(request, pk):
-    #obj = get_object_or_404(Comment, pk=pk)
+    """
+    Gestiona el borrado de comentarios de un articulo del blog
+    :param request: objeto HttpRequesst con los datos de la petición
+    :param pk: parametro que identifica un comentario para su eliminación
+    :return: obejto HttoResponse con los datos de la respuesta.
+    """
     try:
         obj = Comment.objects.get(pk=pk)
     except:
@@ -37,9 +43,12 @@ def comment_delete(request, pk):
 
 
 def comment_thread(request, pk):
-
-    #obj = get_object_or_404(Comment, pk=pk)
-
+    """
+    Gestiona la lista de comentarios realcionados
+    :param request: obejto HttpRequest con los datos de la petición
+    :param pk: parametro para identificar si se trata de un comentario padre dentro lista
+    :return: obejto HttpResponse con los datos de la respuesta
+    """
     try:
         obj = Comment.objects.get(pk=pk)
     except:
