@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
 from urllib.parse import quote_plus
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +14,7 @@ from django.utils import timezone
 # Create your views here.
 from posts.form import PostForm
 from posts.models import Post
-from comments.forms import  CommentForm
+from comments.forms import CommentForm
 from comments.models import Comment
 
 
@@ -21,7 +22,13 @@ def post_home(request):
     return HttpResponse("<h1>Hola</h1>")
 
 
+@login_required
 def post_create(request):
+    """
+    Gestiona la creación de un aritculo del blog
+    :param request: Objeto Htttprequest con los parametros de la petición
+    :return: objeto Httpresponse con los parametros de respuesta
+    """
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
     if not request.user.is_authenticated():
@@ -44,6 +51,12 @@ def post_create(request):
 
 
 def post_detail(request, pk):
+    """
+    Gestiona los detalles de los articulos del post
+    :param request: objeto HttpRequiest con los datos de la petición
+    :param pk: parametro identificador del articulo publicado
+    :return: objeto HttpResponse con los datos de la respuesta
+    """
     instance = get_object_or_404(Post, pk=pk)
     if instance.publish > timezone.now() or instance.draft:
         if not request.user.is_staff or not request.user.is_superuser:
@@ -95,6 +108,11 @@ def post_detail(request, pk):
 
 
 def post_list(request):
+    """
+    Gestiona la lista de articulos de blog publicados sin incluir los draft (borradores)
+    :param request: objeto HttpRequest con los datos de la petición
+    :return: objeto HttpResponse con los datos de la respuesta.
+    """
     today = timezone.now()
     post_qs_list = Post.objects.active() #.order_by('-timestamp')
     # Mira todo los post si incluidos los draft
@@ -129,6 +147,12 @@ def post_list(request):
 
 
 def post_update(request, pk):
+    """
+    Gestiona la actualización de un articulo del blog
+    :param request: objeto Httprequest con los datos de la petición
+    :param pk: parametro que identifica un articulo del blog
+    :return: objeto HttpResponse con los datos de la respuesta
+    """
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
     instance = get_object_or_404(Post, pk=pk)
@@ -147,6 +171,12 @@ def post_update(request, pk):
 
 
 def post_delete(request, pk=None):
+    """
+    Gestiona el borrado de un articulo del blog.
+    :param request: objeto HttpRequest con los datos de la petición
+    :param pk: parametro que identifica el aticulo del blog
+    :return: objeto HttpResponse con los datos de la respuesta
+    """
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
     instance = get_object_or_404(Post, pk=pk)
