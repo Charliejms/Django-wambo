@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -20,7 +21,7 @@ class CommentManager(models.Manager):
         return qs
 
 
-#Generic relations
+# Generic relations
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -29,9 +30,9 @@ class Comment(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True)
 
     content = models.TextField(max_length=250)
-    timestamp =models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
-    objects = CommentManager();
+    objects = CommentManager()
 
     class Meta:
         ordering = ['-timestamp']
@@ -43,12 +44,13 @@ class Comment(models.Model):
         return str(self.user.username)
 
     def get_absolute_url(self):
-        return reverse("comments:url_comment_thread", kwargs={"pk": self.pk })
+        return reverse("comments:url_comment_thread", kwargs={"pk": self.pk})
 
     def get_delete_url(self):
         return reverse("comments:url_comment_delete", kwargs={"pk": self.pk})
 
-    def children(self): #replies comments
+    # replies comments
+    def children(self):
         return Comment.objects.filter(parent=self)
 
     @property

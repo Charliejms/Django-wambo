@@ -14,7 +14,7 @@
                 <h2> {{ instance.title }}
                     <small>
                         {% if instance.draft %} <span class="alert alert-danger">Draft</span>{% endif %}
-                        {{ instance.publish }} |
+                        {{ instance.publish | timesince }} ago |
                         {% if instance.read_time >= 9 %}
                             Read time {{ instance.read_time | time:'i' | cut:'0'}} minutes
                         {% else %}

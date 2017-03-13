@@ -1,7 +1,7 @@
-from django.conf.urls import url,include
-from django.contrib import admin
+from django.conf.urls import url, include
 
-from posts.views import post_home, post_create, post_detail, post_list, post_update, post_delete
+
+from posts.views import post_create, post_detail, post_list, post_update, post_delete
 
 urlpatterns = [
     # Web post URLs

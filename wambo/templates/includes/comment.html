@@ -43,7 +43,7 @@
                         <input type="hidden" name="parent_id" value="{{ comment.id }}">
                         <input type="submit" value="Reply" class="btn btn-default">
                     </form>
-                    % else %}
+                    {% else %}
                         <p>You must login to comment </p>
                     {% endif  %}
                 </div>

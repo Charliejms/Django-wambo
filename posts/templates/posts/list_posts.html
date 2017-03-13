@@ -4,8 +4,8 @@
 <div class="container">
 <div class="col-sm-8 col-sm-offset-2">
     <h1>Read, write and share stories</h1>
-    <hr>
     {% if not request.user.is_authenticated %}
+        <hr>
         <h2><a href="{% url 'url_post_create' %}">Write a story</a></h2>
     {% else %}
      <form class="row" method="get" action="">
@@ -19,6 +19,7 @@
         </div>
     </form>
     {% endif %}
+    <hr>
     <div class="row">
         <div class="col-sm-12">
             {% for obj in object_list %}
