@@ -31,7 +31,7 @@ urlpatterns = [
     # Import Comments URLs
     url(r'^comments/', include(comments_url, namespace='comments')),
     # API comments URLs
-    url(r'^api/comments/', include('comments.api.urls')),
+    url(r'^api/comments/', include('comments.api.urls', namespace='comments-api')),
     # Import User URLs
     url(r'', include(users_urls)),
 ]
