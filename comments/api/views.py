@@ -28,7 +28,26 @@ from comments.models import Comment
 # Serializer
 from .serializers import (
     CommentSerializer,
-    CommentDetailSerializer)
+    CommentDetailSerializer,
+    create_comment_serializer)
+
+
+class CommentCreateAPIView(CreateAPIView):
+    # Comments
+    # POST /api/comments/create/?type=post&pk=Post.id
+    # Replies
+    # POST /api/comments/create/?type=post&pk=Post.id&parent_id=Comment.id
+    queryset = Comment.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        model_type = self.request.GET.get('type')
+        pk = self.request.GET.get('pk')
+        parent_id = self.request.GET.get('parent_id', None)
+        return create_comment_serializer(model_type=model_type,
+                                         pk=pk,
+                                         parent_id=parent_id,
+                                         user=self.request.user)
 
 
 class CommentDetailAPIView(RetrieveAPIView):
