@@ -11,6 +11,10 @@ from posts.models import Post
 from comments.api.serializers import CommentSerializer
 from comments.models import Comment
 
+# Serializer User
+from users.api.serializers import UserDetailSerializer
+
+
 class PostCreateSerializer(ModelSerializer):
     class Meta:
         model = Post
@@ -33,7 +37,7 @@ post_delete_url = HyperlinkedIdentityField(
 
 class PostDetailSerializer(ModelSerializer):
     url = post_detail_url
-    user = SerializerMethodField()
+    user = UserDetailSerializer(read_only=True)
     image = SerializerMethodField()
     publish = SerializerMethodField()
     html = SerializerMethodField()
@@ -54,10 +58,6 @@ class PostDetailSerializer(ModelSerializer):
             'image',
             'comments',
         ]
-
-    @staticmethod
-    def get_user(obj):
-        return str(obj.user.username)
 
     @staticmethod
     def get_image(obj):
@@ -84,7 +84,7 @@ class PostDetailSerializer(ModelSerializer):
 
 class PostListSerializer(ModelSerializer):
     url = post_detail_url
-    user = SerializerMethodField()
+    user = UserDetailSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -96,6 +96,4 @@ class PostListSerializer(ModelSerializer):
             'publish',
         ]
 
-    def get_user(self, obj):
-        return str(obj.user.username)
 

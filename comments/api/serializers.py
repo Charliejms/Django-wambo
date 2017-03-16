@@ -9,6 +9,8 @@ from rest_framework.serializers import (
 # Model
 from comments.models import Comment
 
+# Serializer User
+from users.api.serializers import UserDetailSerializer
 
 User = get_user_model()
 
@@ -117,16 +119,19 @@ class CommentListSerializer(ModelSerializer):
 
 
 class CommentChildSerializer(ModelSerializer):
+    user = UserDetailSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = [
             'id',
+            'user',
             'content',
             'timestamp',
         ]
 
 
 class CommentDetailSerializer(ModelSerializer):
+    user = UserDetailSerializer(read_only=True)
     replies = SerializerMethodField()
     content_object_url = SerializerMethodField()
     reply_count = SerializerMethodField()
@@ -135,6 +140,7 @@ class CommentDetailSerializer(ModelSerializer):
         model = Comment
         fields = [
             'id',
+            'user',
             'content',
             'timestamp',
             'replies',
