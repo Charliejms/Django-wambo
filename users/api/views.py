@@ -42,11 +42,13 @@ User = get_user_model()
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializers
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
 
 class UserLoginAPIView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserLoginSerializers
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         data = request.data
