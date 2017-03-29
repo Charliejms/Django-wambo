@@ -21,7 +21,9 @@ class PostCreateSerializer(ModelSerializer):
         fields = [
             'title',
             'content',
-            'publish'
+            'publish',
+            'image',
+            'draft',
         ]
 
 post_detail_url = HyperlinkedIdentityField(

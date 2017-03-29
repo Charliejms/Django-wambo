@@ -29,8 +29,8 @@ def post_create(request):
     :param request: Objeto Htttprequest con los parametros de la petición
     :return: objeto Httpresponse con los parametros de respuesta
     """
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #     raise Http404
     if not request.user.is_authenticated():
         raise Http404
     form = PostForm(request.POST or None, request.FILES or None)
