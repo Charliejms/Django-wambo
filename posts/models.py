@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
@@ -34,8 +35,22 @@ def upload_location(instance, filename):
     return "%s/%s" %(instance.id, filename)
 
 
+class Category(models.Model):
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name='Create at')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Update at')
+    title = models.CharField(max_length=255, verbose_name='Title')
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, User)
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to=upload_location,
@@ -49,6 +64,9 @@ class Post(models.Model):
     read_time = models.TimeField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    category = models.ForeignKey(Category, verbose_name='Category', null=True, blank=True)
+
+    like = models.IntegerField(default=0)
 
     objects = PostManager()  # objects.all() por convencion se utiliza objects
 
