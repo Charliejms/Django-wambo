@@ -185,4 +185,15 @@ def post_delete(request, pk=None):
     return redirect('url_post_list')
 
 
+def like_posts(request):
+    post_id = request.GET.get('post_id', None)
+
+    likes = 0
+    if post_id:
+        post_blog = Post.objects.get(id=int(post_id))
+        if post_blog is not None:
+            likes = post_blog.like + 1
+            post_blog.like = likes
+            post_blog.save()
+    return HttpResponse(likes)
 

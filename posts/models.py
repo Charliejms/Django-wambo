@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
@@ -35,7 +36,7 @@ def upload_location(instance, filename):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, User)
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to=upload_location,
@@ -49,6 +50,8 @@ class Post(models.Model):
     read_time = models.TimeField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    like = models.IntegerField(default=0)
 
     objects = PostManager()  # objects.all() por convencion se utiliza objects
 

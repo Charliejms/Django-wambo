@@ -36,6 +36,11 @@
                         {% endif %}
                         <p>{{ obj.get_markdown | linebreaks}}</p>
                         <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
+                        <button id="likes" data-id="{{ obj.id }}" class="btn btn-mini btn-danger glyphicon glyphicon-heart" type="button">
+                            {% if obj.like > 0 %}
+                                {{ obj.like }}
+                            {% endif %}
+                        </button>
                       </div>
                     </div>
                 {% cycle '<div class="col-md-6"></div>' '<div class="col-md-6"></div>'%}
