@@ -18,7 +18,7 @@ from comments.forms import CommentForm
 from comments.models import Comment
 
 
-def post_home(request):
+def category_create(request):
     return HttpResponse("<h1>Hola</h1>")
 
 
